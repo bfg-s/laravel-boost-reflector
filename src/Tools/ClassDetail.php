@@ -95,6 +95,10 @@ class ClassDetail extends Tool
                 ->boolean()
                 ->description('CONVENIENCE: Enable concise summary mode for quick class overview. When true: automatically sets constants=false, properties=false, methods_limit=5, include_inherited=false for compact output showing only essential class structure. Perfect for quick API exploration. Individual parameters can still override these defaults. Default: false.')
                 ->default(false),
+            'raw_docblock' => $schema
+                ->boolean()
+                ->description('EXPERT: Show raw docblock text as-is from source code for all elements. Useful for advanced analysis or custom parsing. When true: displays unprocessed docblock strings. When false (default): shows parsed/cleaned docblocks. Default: false.')
+                ->default(false),
         ];
     }
 
@@ -145,6 +149,7 @@ class ClassDetail extends Tool
             $reflector = new ReflectionClass($class);
         }
         $this->comments = true;
+        $this->rawDockBlock = (bool) $request->get('raw_docblock', true);
         $this->constants = (bool) $request->get('constants', true);
         $this->properties = (bool) $request->get('properties', true);
         $this->methods = (bool) $request->get('methods', true);

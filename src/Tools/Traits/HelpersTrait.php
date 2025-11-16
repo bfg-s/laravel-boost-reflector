@@ -22,6 +22,7 @@ trait HelpersTrait
     protected bool $properties = false;
     protected bool $methods = false;
     protected bool $comments = false;
+    protected bool $rawDockBlock = false;
     protected bool $include_inherited = false;
     protected bool $summary = false;
     protected string $visibility = 'public';
@@ -282,9 +283,12 @@ trait HelpersTrait
         return $result;
     }
 
-    protected function generateDocBlock(ReflectionClass|ReflectionMethod|ReflectionProperty|ReflectionClassConstant|false $ref, bool $details = false): array|null
+    protected function generateDocBlock(ReflectionClass|ReflectionMethod|ReflectionProperty|ReflectionClassConstant|false $ref, bool $details = false): array|string|null
     {
         if ($this->comments && $ref && ($doc = $ref->getDocComment())) {
+            if ($this->rawDockBlock) {
+                return $doc;
+            }
             $factory  = DocBlockFactory::createInstance();
             $docblock = $factory->create($doc);
             $doc = [];

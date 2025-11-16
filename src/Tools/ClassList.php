@@ -58,6 +58,10 @@ class ClassList extends Tool
                 ->integer()
                 ->description('PAGINATION: Skip first N classes. Useful for paginating through large result sets. Example: offset=0, limit=20 shows first 20 classes; offset=20, limit=20 shows next 20. Default: 0 (no skip).')
                 ->default(0),
+            'raw_docblock' => $schema
+                ->boolean()
+                ->description('EXPERT: Show raw docblock text as-is from source code for all elements. Useful for advanced analysis or custom parsing. When true: displays unprocessed docblock strings. When false (default): shows parsed/cleaned docblocks. Default: false.')
+                ->default(false),
         ];
     }
 
@@ -114,9 +118,8 @@ class ClassList extends Tool
             });
         }
 
-        if ($collectionOfClasses->count() < 5) {
-            $this->comments = true;
-        }
+        $this->rawDockBlock = (bool) $request->get('raw_docblock', true);
+        $this->comments = true;
 
         // Get pagination parameters
         $limit = $request->get('limit', 0);
