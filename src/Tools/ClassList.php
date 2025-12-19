@@ -6,7 +6,7 @@ namespace Bfg\LaravelBoostReflector\Tools;
 
 use Bfg\Attributes\Attributes;
 use Bfg\LaravelBoostReflector\Tools\Traits\HelpersTrait;
-use Illuminate\JsonSchema\JsonSchema;
+use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
